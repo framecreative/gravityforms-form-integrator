@@ -34,12 +34,17 @@ class GFFormIntegrator extends GFFeedAddOn {
 
 		parent::init();
 
-		$this->add_delayed_payment_support(
-			array(
-				'option_label' => esc_html__( 'Subscribe contact to service x only when payment is received.', 'simplefeedaddon' )
-			)
-		);
+	}
 
+	public function supported_notification_events( $form ) {
+		if ( ! $this->has_feed( $form['id'] ) ) {
+			return false;
+		}
+
+		return array(
+			'intergation_success'  => esc_html__( 'Integration Success (200 http response)', 'simplefeedaddon' ),
+			'intergation_failure' => esc_html__( 'Integration Failure (non 200 response)', 'simplefeedaddon' ),
+		);
 	}
 
 
@@ -89,22 +94,41 @@ class GFFormIntegrator extends GFFeedAddOn {
 
         $response = wp_remote_post( $submitUrl, $request_args );
 
-        if ( is_array( $response ) ){
-
-            $status = $response['code'];
-
-        }
-
 
         if ( is_wp_error( $response ) ) {
 	        $this->add_feed_error( '<b>Integration HTTP Error</b>\n WP Error:' . $response->get_error_message() , $feed, $entry, $form );
+
+	        GFAPI::send_notifications( $form, $entry, 'integration_failure' );
+
+	        return;
         }
 
+        $status = '';
+
+		if ( is_array( $response ) ){
+
+			$status = $response['response']['code'];
+
+		}
+
+        if ( $status == 200 ) {
+
+	        $this->add_note( $entry['id'], $feedName . ': Data Submission returned 200 ok', 'success' );
+	        GFAPI::send_notifications( $form, $entry, 'integration_success' );
+
+	        return;
+
+        }
+
+		$this->add_note( $entry['id'], $feedName . ': Data Submission returned ' . $status , 'warning' );
+		GFAPI::send_notifications( $form, $entry, 'integration_failure' );
+
+		// Allow other code to hook in here, possibly to set a queue / retry system
+		do_action( 'form_integration_non_200_response', $form, $entry, $feed, $this );
+
+		return;
 
 
-        $this->add_note( $entry['id'], $feedName . ': Data Submission Success', 'success' );
-
-		$this->add_feed_error( 'Mailing list subscription failed.', $feed, $entry, $form );
 
 	}
 
