@@ -1,11 +1,11 @@
 <?php
 /*
-Plugin Name: Gravity Forms Simple Feed Add-On
-Plugin URI: http://www.gravityforms.com
-Description: A simple add-on to demonstrate the use of the Add-On Framework
-Version: 2.0
-Author: Rocketgenius
-Author URI: http://www.rocketgenius.com
+Plugin Name: Gravity Forms - Form Integrator
+Plugin URI: https://framecreative.com.au
+Description: A plugin to send gravity forms submission data to 3rd parties such as salesforce or marketo
+Version: 2.2
+Author: F/R/A/M/E/ Creative
+Author URI: https://framecreative.com.au
 
 ------------------------------------------------------------------------
 Copyright 2012-2016 Rocketgenius Inc.
