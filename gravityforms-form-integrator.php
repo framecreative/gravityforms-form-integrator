@@ -1,11 +1,13 @@
 <?php
 /*
-Plugin Name: Gravity Forms - Form Integrator
-Plugin URI: https://framecreative.com.au
-Description: A plugin to send gravity forms submission data to 3rd parties such as salesforce or marketo
-Version: 2.2
-Author: F/R/A/M/E/ Creative
-Author URI: https://framecreative.com.au
+ * Plugin Name: Gravity Forms - Form Integrator
+ * Plugin URI: https://framecreative.com.au
+ * Description: A plugin to send gravity forms submission data to 3rd parties such as salesforce or marketo
+ * Version: 2.2
+ * Author: F/R/A/M/E/ Creative
+ * Author URI: https://framecreative.com.au
+ * Bitbucket Plugin URI: https://bitbucket.org/framecreative/gravityforms-form-integrator
+ * Bitbucket Branch:     master
 
 ------------------------------------------------------------------------
 Copyright 2012-2016 Rocketgenius Inc.
