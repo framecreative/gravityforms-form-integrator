@@ -83,7 +83,7 @@ class GFFormIntegrator extends GFFeedAddOn {
 			$postDataValues[ $name ] = $field_value;
 		}
 
-		GFCommon::log_debug( print_r( $postDataValues ) );
+		// GFCommon::log_debug( print_r( $postDataValues ) );
 
 		// Send the values to the third-party service.
 
