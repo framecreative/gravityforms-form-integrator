@@ -12,6 +12,8 @@ class GFFormIntegrator extends GFFeedAddOn {
 	protected $_title = 'Gravity Forms Form Integrator';
 	protected $_short_title = 'Form Integrator';
 
+	public $_async_feed_processing = true;
+
 	private static $_instance = null;
 
 	/**
@@ -83,7 +85,9 @@ class GFFormIntegrator extends GFFeedAddOn {
 			$postDataValues[ $name ] = $field_value;
 		}
 
-		// GFCommon::log_debug( print_r( $postDataValues ) );
+		if ( defined('WP_ENV') && ! ( WP_ENV === 'live' || WP_ENV === 'production' ) ) {
+			GFCommon::log_debug( print_r( $postDataValues ) );
+		}
 
 		// Send the values to the third-party service.
 
@@ -133,110 +137,24 @@ class GFFormIntegrator extends GFFeedAddOn {
 	}
 
 	/**
-	 * Custom format the phone type field values before they are returned by $this->get_field_value().
-	 *
-	 * @param array $entry The Entry currently being processed.
-	 * @param string $field_id The ID of the Field currently being processed.
-	 * @param GF_Field_Phone $field The Field currently being processed.
-	 *
-	 * @return string
-	 */
-	public function get_phone_field_value( $entry, $field_id, $field ) {
-
-		// Get the field value from the Entry Object.
-		$field_value = rgar( $entry, $field_id );
-
-		// If there is a value and the field phoneFormat setting is set to standard reformat the value.
-		if ( ! empty( $field_value ) && $field->phoneFormat == 'standard' && preg_match( '/^\D?(\d{3})\D?\D?(\d{3})\D?(\d{4})$/', $field_value, $matches ) ) {
-			$field_value = sprintf( '%s-%s-%s', $matches[1], $matches[2], $matches[3] );
-		}
-
-		return $field_value;
-	}
-
-	// # SCRIPTS & STYLES -----------------------------------------------------------------------------------------------
-
-	/**
-	 * Return the scripts which should be enqueued.
-	 *
-	 * @return array
-	 */
-	public function scripts() {
-		$scripts = array(
-			array(
-				'handle'  => 'my_script_js',
-				'src'     => $this->get_base_url() . '/js/my_script.js',
-				'version' => $this->_version,
-				'deps'    => array( 'jquery' ),
-				'strings' => array(
-					'first'  => esc_html__( 'First Choice', 'simplefeedaddon' ),
-					'second' => esc_html__( 'Second Choice', 'simplefeedaddon' ),
-					'third'  => esc_html__( 'Third Choice', 'simplefeedaddon' ),
-				),
-				'enqueue' => array(
-					array(
-						'admin_page' => array( 'form_settings' ),
-						'tab'        => 'integrationsettings',
-					),
-				),
-			),
-		);
-
-		return array_merge( parent::scripts(), $scripts );
-	}
-
-	/**
-	 * Return the stylesheets which should be enqueued.
-	 *
-	 * @return array
-	 */
-	public function styles() {
-
-		$styles = array(
-			array(
-				'handle'  => 'my_styles_css',
-				'src'     => $this->get_base_url() . '/css/my_styles.css',
-				'version' => $this->_version,
-				'enqueue' => array(
-					array( 'field_types' => array( 'poll' ) ),
-				),
-			),
-		);
-
-		return array_merge( parent::styles(), $styles );
-	}
-
-	// # ADMIN FUNCTIONS -----------------------------------------------------------------------------------------------
-
-	/**
-	 * Configures the settings which should be rendered on the add-on settings tab.
-	 *
-	 * @return array
-	 */
-	public function plugin_settings_fields() {
-		return array(
-			array(
-				'title'  => esc_html__( 'Integration Settings', 'simplefeedaddon' ),
-				'fields' => array(
-					array(
-						'name'    => 'textbox',
-						'tooltip' => esc_html__( 'This is the tooltip', 'simplefeedaddon' ),
-						'label'   => esc_html__( 'This is the label', 'simplefeedaddon' ),
-						'type'    => 'text',
-						'class'   => 'small',
-					),
-				),
-			),
-		);
-	}
-
-	/**
 	 * Configures the settings which should be rendered on the feed edit page in the Form Settings > Simple Feed Add-On area.
 	 *
 	 * @return array
 	 */
 	public function feed_settings_fields() {
 		return array(
+			array(
+				'title' => esc_html__('Integration Conditional Activate','simplefeedaddon'),
+				'fields' => array(
+					array(
+						'type'           => 'feed_condition',
+						'name'           => 'optin',
+						'label'          => __( 'Opt-In Condition', 'simplefeedaddon' ),
+						'checkbox_label' => __( 'Enable Condition', 'simplefeedaddon' ),
+						'instructions'   => __( 'Process this example feed if', 'simplefeedaddon' )
+					)
+				),
+			),
 			array(
 				'title'  => esc_html__( 'Integration Instance Settings', 'simplefeedaddon' ),
 				'fields' => array(
