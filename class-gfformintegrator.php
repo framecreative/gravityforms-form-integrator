@@ -7,7 +7,7 @@ class GFFormIntegrator extends GFFeedAddOn {
 	protected $_version = GF_FORM_INTEGRATOR_VERSION;
 	protected $_min_gravityforms_version = '1.9.16';
 	protected $_slug = 'simplefeedaddon';
-	protected $_path = 'simplefeedaddon/gravityforms-form-integrator.php';
+	protected $_path = 'gravityforms-form-integrator/gravityforms-form-integrator.php';
 	protected $_full_path = __FILE__;
 	protected $_title = 'Gravity Forms Form Integrator';
 	protected $_short_title = 'Form Integrator';
@@ -44,8 +44,8 @@ class GFFormIntegrator extends GFFeedAddOn {
 		}
 
 		return array(
-			'intergation_success'  => esc_html__( 'Integration Success (200 http response)', 'simplefeedaddon' ),
-			'intergation_failure' => esc_html__( 'Integration Failure (non 200 response)', 'simplefeedaddon' ),
+			'intergation_success'  => esc_html__( 'Integration Success (200 http response)', 'gravityforms-form-integrator' ),
+			'intergation_failure' => esc_html__( 'Integration Failure (non 200 response)', 'gravityforms-form-integrator' ),
 		);
 	}
 
@@ -144,38 +144,38 @@ class GFFormIntegrator extends GFFeedAddOn {
 	public function feed_settings_fields() {
 		return array(
 			array(
-				'title' => esc_html__('Integration Conditional Activate','simplefeedaddon'),
+				'title' => esc_html__('Integration Conditional Activate','gravityforms-form-integrator'),
 				'fields' => array(
 					array(
 						'type'           => 'feed_condition',
 						'name'           => 'optin',
-						'label'          => __( 'Opt-In Condition', 'simplefeedaddon' ),
-						'checkbox_label' => __( 'Enable Condition', 'simplefeedaddon' ),
-						'instructions'   => __( 'Process this example feed if', 'simplefeedaddon' )
+						'label'          => __( 'Opt-In Condition', 'gravityforms-form-integrator' ),
+						'checkbox_label' => __( 'Enable Condition', 'gravityforms-form-integrator' ),
+						'instructions'   => __( 'Process this example feed if', 'gravityforms-form-integrator' )
 					)
 				),
 			),
 			array(
-				'title'  => esc_html__( 'Integration Instance Settings', 'simplefeedaddon' ),
+				'title'  => esc_html__( 'Integration Instance Settings', 'gravityforms-form-integrator' ),
 				'fields' => array(
 					array(
-						'label'   => esc_html__( 'Integration name', 'simplefeedaddon' ),
+						'label'   => esc_html__( 'Integration name', 'gravityforms-form-integrator' ),
 						'type'    => 'text',
 						'name'    => 'feedName',
-						'tooltip' => esc_html__( 'This is the tooltip', 'simplefeedaddon' ),
+						'tooltip' => esc_html__( 'This is the tooltip', 'gravityforms-form-integrator' ),
 						'class'   => 'large',
 					),
 					array(
-						'label'   => esc_html__( 'Submit URL', 'simplefeedaddon' ),
+						'label'   => esc_html__( 'Submit URL', 'gravityforms-form-integrator' ),
 						'type'    => 'text',
 						'name'    => 'submitUrl',
-						'tooltip' => esc_html__( 'This is the tooltip', 'simplefeedaddon' ),
+						'tooltip' => esc_html__( 'This is the tooltip', 'gravityforms-form-integrator' ),
 						'class'   => 'large',
 					),
 				),
 			),
             array(
-                'title'  => esc_html__( 'Integration form field mapping', 'simplefeedaddon' ),
+                'title'  => esc_html__( 'Integration form field mapping', 'gravityforms-form-integrator' ),
                 'description' => 'Enter your field keys (input name attribute) provided by the 3rd party service and choose the gravity forms field to map it to</br>',
                 'fields' => array(
                     array(
@@ -190,7 +190,7 @@ class GFFormIntegrator extends GFFeedAddOn {
                 ),
             ),
             array(
-                'title'  => esc_html__( 'Integration hidden field mapping', 'simplefeedaddon' ),
+                'title'  => esc_html__( 'Integration hidden field mapping', 'gravityforms-form-integrator' ),
                 'description' => 'Additional key/value pairs can be provided to forward on to the 3rd party - this section is designed primarily to pass on hidden field values</br>',
                 'fields' => array(
                     array(
@@ -214,8 +214,8 @@ class GFFormIntegrator extends GFFeedAddOn {
 	 */
 	public function feed_list_columns() {
 		return array(
-			'feedName'  => esc_html__( 'Integration Name', 'simplefeedaddon' ),
-			'submitUrl' => esc_html__( 'Submit URL', 'simplefeedaddon' ),
+			'feedName'  => esc_html__( 'Integration Name', 'gravityforms-form-integrator' ),
+			'submitUrl' => esc_html__( 'Submit URL', 'gravityforms-form-integrator' ),
 		);
 	}
 
