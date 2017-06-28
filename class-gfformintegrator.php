@@ -12,7 +12,7 @@ class GFFormIntegrator extends GFFeedAddOn {
 	protected $_title = 'Gravity Forms Form Integrator';
 	protected $_short_title = 'Form Integrator';
 
-	public $_async_feed_processing = true;
+	public $_async_feed_processing = false;
 
 	private static $_instance = null;
 
@@ -33,6 +33,8 @@ class GFFormIntegrator extends GFFeedAddOn {
 	 * Plugin starting point. Handles hooks, loading of language files and PayPal delayed payment support.
 	 */
 	public function init() {
+
+		$this->_async_feed_processing = ( defined('WP_ENV') && ( WP_ENV === 'live' || WP_ENV === 'production' ) );
 
 		parent::init();
 
@@ -65,6 +67,9 @@ class GFFormIntegrator extends GFFeedAddOn {
 		$feedName  = $feed['meta']['feedName'];
 		$submitUrl = $feed['meta']['submitUrl'];
 
+		// Reset this at the start of each feed
+		$this->postDataValues = [];
+
 		// Retrieve the name => value pairs for all fields mapped in the 'mappedFields' field map.
 		$formMap = $this->get_dynamic_field_map_fields( $feed, 'formData' );
 
@@ -74,8 +79,16 @@ class GFFormIntegrator extends GFFeedAddOn {
 		$postDataValues = array();
 		foreach ( $formMap as $name => $field_id ) {
 
-			// Get the field value for the specified field id
-			$postDataValues[ $name ] = $this->get_field_value( $form, $entry, $field_id );
+			$field = GFFormsModel::get_field( $form, $field_id );
+
+			/*
+			 * Gives us a chance to write hooks to alter values, these hooks should return false if they modify the postDataValues array
+			 */
+			$value = apply_filters( 'gf_form_integrator_modify_dynamic_field_value', $this->get_field_value( $form, $entry, $field_id ), $feed, $entry, $form, $field, $this );
+
+			if ( ! $value ) continue;
+
+			$postDataValues[ $name ] = $value;
 
 		}
 
@@ -228,6 +241,14 @@ class GFFormIntegrator extends GFFeedAddOn {
 	 */
 	public function get_column_value_submitUrl( $feed ) {
 		return '<p>' . rgars( $feed, 'meta/submitUrl' ) . '</p>';
+	}
+
+	public function get_checkbox_field_value( $entry, $field_id, $field ){
+		if ( count( $field->choices ) > 1 ) {
+
+
+
+		}
 	}
 
 
