@@ -16,4 +16,5 @@ A plugin for integrating gravity forms with 3rd party API's (salesforce etc)
  	- Change async to only in production for easier debugging with xdebug
  	- add filter to allow value changes, pave the way for proper multi-list working with salesforce
 * 2.3.2: Allow filter to manipulate all postData values through object instance
+* 2.3.3: Bug fixes to checkbox values
 

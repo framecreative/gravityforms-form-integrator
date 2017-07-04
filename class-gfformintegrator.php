@@ -85,7 +85,7 @@ class GFFormIntegrator extends GFFeedAddOn {
 			/*
 			 * Gives us a chance to write hooks to alter values, these hooks should return false if they modify the postDataValues array
 			 */
-			$value = apply_filters( 'gf_form_integrator_modify_dynamic_field_value', $this->get_field_value( $form, $entry, $field_id ), $feed, $entry, $form, $field, $this );
+			$value = apply_filters( 'gf_form_integrator_modify_dynamic_field_value', $this->get_field_value( $form, $entry, $field_id ), $name, $field, $this, $feed, $entry, $form );
 
 			if ( ! $value ) continue;
 
@@ -242,14 +242,6 @@ class GFFormIntegrator extends GFFeedAddOn {
 	 */
 	public function get_column_value_submitUrl( $feed ) {
 		return '<p>' . rgars( $feed, 'meta/submitUrl' ) . '</p>';
-	}
-
-	public function get_checkbox_field_value( $entry, $field_id, $field ){
-		if ( count( $field->choices ) > 1 ) {
-
-
-
-		}
 	}
 
 
