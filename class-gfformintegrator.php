@@ -12,6 +12,8 @@ class GFFormIntegrator extends GFFeedAddOn {
 	protected $_title = 'Gravity Forms Form Integrator';
 	protected $_short_title = 'Form Integrator';
 
+	public $_postDataValues;
+
 	public $_async_feed_processing = false;
 
 	private static $_instance = null;
@@ -68,7 +70,7 @@ class GFFormIntegrator extends GFFeedAddOn {
 		$submitUrl = $feed['meta']['submitUrl'];
 
 		// Reset this at the start of each feed
-		$this->postDataValues = [];
+		$this->_postDataValues = [];
 
 		// Retrieve the name => value pairs for all fields mapped in the 'mappedFields' field map.
 		$formMap = $this->get_dynamic_field_map_fields( $feed, 'formData' );
@@ -76,7 +78,6 @@ class GFFormIntegrator extends GFFeedAddOn {
 		$extraMap = $this->get_generic_map_fields( $feed, 'extraData' );
 
 		// Loop through the fields from the field map setting building an array of values to be passed to the third-party service.
-		$postDataValues = array();
 		foreach ( $formMap as $name => $field_id ) {
 
 			$field = GFFormsModel::get_field( $form, $field_id );
@@ -88,24 +89,24 @@ class GFFormIntegrator extends GFFeedAddOn {
 
 			if ( ! $value ) continue;
 
-			$postDataValues[ $name ] = $value;
+			$this->_postDataValues[ $name ] = $value;
 
 		}
 
 		foreach ( $extraMap as $name => $field_value ) {
 
 			// In the case of a generic map field we can straight up use the value
-			$postDataValues[ $name ] = $field_value;
+			$this->_postDataValues[ $name ] = $field_value;
 		}
 
 		if ( defined('WP_ENV') && ! ( WP_ENV === 'live' || WP_ENV === 'production' ) ) {
-			GFCommon::log_debug( print_r( $postDataValues ) );
+			GFCommon::log_debug( print_r( $this->_postDataValues ) );
 		}
 
 		// Send the values to the third-party service.
 
         $request_args = array(
-            'body' => $postDataValues,
+            'body' => $this->_postDataValues,
             'timeout' => 30,
         );
 
