@@ -105,8 +105,10 @@ class GFFormIntegrator extends GFFeedAddOn {
 
 		$finalValues = apply_filters( 'gf_form_integrator_modify_values_pre_submit', $this->_postDataValues, $feed, $entry, $form );
 
-		// Send the values to the third-party service.
+		// Provide one last opportunity for people to bail on this feed by returning false
+		if ( false === $finalValues ) return;
 
+		// Send the values to the third-party service.
         $request_args = array(
             'body' => $finalValues,
             'timeout' => 30,
@@ -178,14 +180,14 @@ class GFFormIntegrator extends GFFeedAddOn {
 						'label'   => esc_html__( 'Integration name', 'gravityforms-form-integrator' ),
 						'type'    => 'text',
 						'name'    => 'feedName',
-						'tooltip' => esc_html__( 'This is the tooltip', 'gravityforms-form-integrator' ),
+						'tooltip' => esc_html__( 'Feed Name (mainly for admin reference)', 'gravityforms-form-integrator' ),
 						'class'   => 'large',
 					),
 					array(
 						'label'   => esc_html__( 'Submit URL', 'gravityforms-form-integrator' ),
 						'type'    => 'text',
 						'name'    => 'submitUrl',
-						'tooltip' => esc_html__( 'This is the tooltip', 'gravityforms-form-integrator' ),
+						'tooltip' => esc_html__( 'The Url that this feed should submit to via HTTP POST', 'gravityforms-form-integrator' ),
 						'class'   => 'large',
 					),
 				),
@@ -200,7 +202,7 @@ class GFFormIntegrator extends GFFeedAddOn {
                         'type'                => 'dynamic_field_map',
                         'limit'               => 20,
                         'exclude_field_types' => 'creditcard',
-                        'tooltip'             => '<h6>' . esc_html__( 'Metadata', 'sometextdomain' ) . '</h6>' . esc_html__( 'You may send custom meta information to [...]. A maximum of 20 custom keys may be sent. The key name must be 40 characters or less, and the mapped data will be truncated to 500 characters per requirements by [...]. ', 'sometextdomain' ),
+                        'tooltip'             => '<h6>' . esc_html__( 'Metadata', 'sometextdomain' ) . '</h6>' . esc_html__( 'You may add as many name / value pairs as needed. Within the textbox you put the name of the input the external service is expecting, then choose a gravity form field to provide the value on submission', 'gravityforms-form-integrator' ),
                         'validation_callback' => array( $this, 'validate_custom_meta' ),
                     ),
                 ),
@@ -215,7 +217,7 @@ class GFFormIntegrator extends GFFeedAddOn {
                         'type'                => 'generic_map',
                         'limit'               => 20,
                         'exclude_field_types' => 'creditcard',
-                        'tooltip'             => '<h6>' . esc_html__( 'Metadata', 'sometextdomain' ) . '</h6>' . esc_html__( 'You may send custom meta information to [...]. A maximum of 20 custom keys may be sent. The key name must be 40 characters or less, and the mapped data will be truncated to 500 characters per requirements by [...]. ', 'sometextdomain' ),
+                        'tooltip'             => '<h6>' . esc_html__( 'Metadata', 'sometextdomain' ) . '</h6>' . esc_html__( 'Define as many key/value pairs of static values as needed. These are sent with every request, and are mainly used for mocking hidden fields that the external service is expecting, but that do not need to be in your gravity form', 'gravityforms-form-integrator' ),
                         'validation_callback' => array( $this, 'validate_custom_meta' ),
                     ),
                 ),

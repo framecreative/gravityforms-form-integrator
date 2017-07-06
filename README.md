@@ -143,4 +143,5 @@ Example use case: converting Gravity Forms checkbox or multi-select fields into 
 * 2.3.2: Allow filter to manipulate all postData values through object instance
 * 2.3.3: Bug fixes to checkbox values
 * 2.3.4: Add additional filter before final values submission to increase flexibility
+* 2.3.5: Enable disabling of the whole request via a filter for more complex condition
 

@@ -1,10 +1,10 @@
 <?php
 /*
  * Plugin Name: Gravity Forms - Form Integrator
- * Plugin URI: https://framecreative.com.au
+ * Plugin URI: https://github.com/framedigital/gravityforms-form-integrator
  * Description: A plugin to send gravity forms submission data to 3rd parties such as salesforce or marketo
- * Version: 2.3.4
- * Author: F/R/A/M/E/ Creative
+ * Version: 2.3.5
+ * Author: F / R / A / M / E / Creative
  * Author URI: https://framecreative.com.au
  * Github Plugin URI: https://bitbucket.org/framecreative/gravityforms-form-integrator
  * Github Branch:     master
@@ -26,7 +26,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
 
-define( 'GF_FORM_INTEGRATOR_VERSION', '2.3.4' );
+define( 'GF_FORM_INTEGRATOR_VERSION', '2.3.5' );
 
 add_action( 'gform_loaded', array( 'Gf_form_integrator_Bootstrap', 'load' ), 5 );
 
