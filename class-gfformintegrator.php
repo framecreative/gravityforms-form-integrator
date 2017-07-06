@@ -103,10 +103,12 @@ class GFFormIntegrator extends GFFeedAddOn {
 			GFCommon::log_debug( print_r( $this->_postDataValues ) );
 		}
 
+		$finalValues = apply_filters( 'gf_form_integrator_modify_values_pre_submit', $this->_postDataValues, $feed, $entry, $form );
+
 		// Send the values to the third-party service.
 
         $request_args = array(
-            'body' => $this->_postDataValues,
+            'body' => $finalValues,
             'timeout' => 30,
         );
 
@@ -251,12 +253,6 @@ class GFFormIntegrator extends GFFeedAddOn {
 	 * @return bool
 	 */
 	public function can_create_feed() {
-
-		// Get the plugin settings.
-		$settings = $this->get_plugin_settings();
-
-		// Access a specific setting e.g. an api key
-		$key = rgar( $settings, 'apiKey' );
 
 		return true;
 	}
