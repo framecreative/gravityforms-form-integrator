@@ -1,4 +1,4 @@
-#Gravity Forms Form Integrator
+# Gravity Forms Form Integrator
 
 An extension for the [Gravity Forms](http://www.gravityforms.com/) WordPress plugin.
 
@@ -23,14 +23,14 @@ WordPress install via Github Updater
 - Follow the Github Updater instructions to install
 - When new tagged releases are published, the Github Updater plugin will allow you to upgrade via the normal process in wp-admin
 
-##Composer Installation :tada:
+## Composer Installation :tada:
  - This plugin is published via packagist, and has the type "wordpress-plugin" set to facilitate installation via composer/installers
  - `composer require framecreate/gravityforms-form-integrator`
  - Pat yourself on the back for being a PHP developer not stuck in 2006 :nail-care:
  
- ##Usage
+ ## Usage
  
- ###Admin interface
+ ### Admin interface
  
  After activation there will be a new item in the settings menu called 'Form Integrator'
  ![New Settings Item in GF settings Menu](https://cdn-img-one.frame.hosting/form-plugin-docs/form-integrator-form-settings-1.jpg?w=1200)
@@ -56,7 +56,7 @@ WordPress install via Github Updater
  
  ![Main Settings page for form integrator](https://cdn-img-one.frame.hosting/form-plugin-docs/form-integrator-form-settings-2.jpg?w=1200)
  
- ##Environments && Enabling Async Processing
+ ### Environments && Enabling Async Processing
  
  The plugin will exhibit some extra behaviour is a constant names `WP_ENV` is defined
  - if `WP_ENV` is defined, and NOT `live` or `production` then each feed will dump its values on screen for debug on submit *in addition to sending the request*
@@ -64,7 +64,7 @@ WordPress install via Github Updater
  
  In order to utilise the Async feed processing features you must define a `WP_ENV` constant, and the value must be either `live` or `production`
  
- ###Managing Multiple feeds
+ ### Managing Multiple feeds
  
  A single form can have multiple feeds to submit to multiple external services, or multiple conditional feeds etc
  
@@ -80,7 +80,27 @@ Each feed's settings are stored in a single row in the `%%Your DB Prefix%%_gf_ad
 
 The feed settings are all JSON, so you can edit them without having to worry about PHP Serialized data woes
  
- ##Tips
+## Filters & Extending this plugin
+
+The plugin has 2 main filters - these allow you to manipulate the data before it is submitted to the external service
+
+Example use case: converting Gravity Forms checkbox or multi-select fields into a format salesforce will understand
+
+ ````php
+ <?php
+ // This filter is applied to each dynamic field map pairing before it's added to the array
+ function myFilter(  $fieldValue, $fieldName, $fieldObject, $formIntegratorObject, $gf_feedArray, $gf_entryArray, $gf_formArray ){
+    // Do Stuff here
+    return $fieldValue;
+ };
+ 
+ // Even though filters technically shouldn't cause side effects, you can add additional items to the array via 
+ // $formIntegratorObject->_postDataValues['my_extra_key'] = 'my_extra_value'
+ 
+ // return false to prevent this value from being added to the 'postDataValues' array
+ ````
+ 
+## Tips
  
  Do your validation using Gravity Forms - the feed only gets processed for valid submissions
  
@@ -88,7 +108,7 @@ The feed settings are all JSON, so you can edit them without having to worry abo
  
  Pardot passes these values on after submission using some heaps hacky JS, as we're making this request programatically there's no browser to run this JS!
   
-##Release Notes:
+## Release Notes:
 
 * 1.0: initial release
 * 2.0: added dynamic field maps
