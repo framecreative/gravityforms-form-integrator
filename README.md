@@ -88,8 +88,11 @@ Example use case: converting Gravity Forms checkbox or multi-select fields into 
 
  ````php
  <?php
+ 
+ add_filter('gf_form_integrator_modify_dynamic_field_value', 'myFormIntegratorFilter', 10, 7);
+ 
  // This filter is applied to each dynamic field map pairing before it's added to the array
- function myFilter(  $fieldValue, $fieldName, $fieldObject, $formIntegratorObject, $gf_feedArray, $gf_entryArray, $gf_formArray ){
+ function myFormIntegratorFilter(  $fieldValue, $fieldName, $fieldObject, $formIntegratorObject, $gf_feedArray, $gf_entryArray, $gf_formArray ){
     // Do Stuff here
     return $fieldValue;
  };
@@ -99,6 +102,21 @@ Example use case: converting Gravity Forms checkbox or multi-select fields into 
  
  // return false to prevent this value from being added to the 'postDataValues' array
  ````
+ 
+ There is also a filter called just before all the values are sent, containing the array of all data to be sent in the POST request
+ 
+  ````php
+  <?php
+  
+  add_filter('gf_form_integrator_modify_values_pre_submit', 'myFormIntegratorArrayFilter', 10, 4);
+  
+  // This filter is applied once right before the POST request is made
+  function myFormIntegratorFilter(  $arrayOfData, $gf_feedArray, $gf_entryArray, $gf_formArray ){
+     // Do Stuff here
+     return $arrayOfData;
+  };
+  
+  ````
  
 ## Tips
  
