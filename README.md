@@ -116,6 +116,9 @@ Example use case: converting Gravity Forms checkbox or multi-select fields into 
      return $arrayOfData;
   };
   
+   // return false to prevent the submission of ALL VALUES to the service (cancel the whole thing)
+   // use with caution, implement logging in your filter if you are going to short circuit things (add a note or something)
+  
   ````
  
 ## Tips
