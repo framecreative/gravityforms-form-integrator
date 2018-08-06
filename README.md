@@ -26,7 +26,7 @@ WordPress install via Github Updater
 ## Composer Installation :tada:
  - This plugin is published via packagist, and has the type "wordpress-plugin" set to facilitate installation via composer/installers
  - `composer require framecreate/gravityforms-form-integrator`
- - Pat yourself on the back for being a PHP developer not stuck in 2006 :nail-care:
+ - Pat yourself on the back for being a PHP developer not stuck in 2006 :nail_care:
  
  ## Usage
  
